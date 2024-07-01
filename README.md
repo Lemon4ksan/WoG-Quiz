@@ -43,7 +43,7 @@ When game releases new weapon you should run download_weapons.py script to downl
 (You'll probably have to wait for the guide's author to update it first.)
 
 ## Mentions
-Thanks to this guide for providing the weapon images.: https://steamcommunity.com/sharedfiles/filedetails/?id=2589399401
+Thanks to this guide for providing the weapon images: https://steamcommunity.com/sharedfiles/filedetails/?id=2589399401
 Make sure to give it a like. 
 
 ## Contribution
