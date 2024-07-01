@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Project's local files
+screenshots/weapon_image.png
+screenshots/button.png
+weapons/
+index.html
+
 # C extensions
 *.so
 
