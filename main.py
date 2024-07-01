@@ -46,27 +46,84 @@ def main() -> None:
         try:
             pygui.locate(r'.\screenshots\weapon_image.png',
                          f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                         confidence=0.9, region=(0, 0, 256, 185))  # TODO: Adjust pixels to get clean white space
+                         confidence=0.95, region=(0, 0, 256, 185))  # TODO: Adjust pixels to get clean white space
         except pygui.ImageNotFoundException:
             continue
         except IOError:
             # Attempts to fix wrong text recognition. There will be more fixes later on
-            match name:
-                case "Bren":
-                    name.replace("l", "I")
+            if "Bren" in name:
+                name = name.replace("l", "I")
+            elif "CZ-5" in name or "CZ75" in name:
+                name = "CZ-75"
+            elif "type b" in name.lower():
+                name = "Stryk B"
+            elif "bar" in name.lower():
+                name = "B.A.R."
+            elif "1919.04" in name:
+                name = "M1919 A4"
+            elif "Berdan" in name:
+                name = "Berdan 2"
+            elif "vz61" in name:
+                name = "VZ 61"
+            elif "M1944" in name:
+                name = name.replace("44", "41")
+            elif "MG3" in name:
+                name = "MG 3"
+            elif "14" in name:
+                name = "M14"
+            elif "Model 1" in name:
+                name = "Model 21"
+            elif "ART" in name:
+                name = "AR-7"
+            elif "zis" in name:
+                print(f"Weapon {name} is not implemented yet...")
+                continue
+            elif "S&W" in name:
+                name = "S&W M&P"
+            elif "Flak" in name:
+                print(f"Weapon {name} is not implemented yet...")
+                continue
+            elif "TKB-022PM" in name:
+                print(f"Weapon {name} is not implemented yet...")
+                continue
+            elif "HK 3303" in name:
+                name = "HK 33A3"
+            elif "1T" in name:
+                name = "TT"
+            elif "Villar Perosa" in name:
+                print(f"Weapon {name} is not implemented yet...")
+                continue
+            elif "Ruger MK" in name:
+                name = "Ruger MK II"
+            elif "M2408" in name:
+                name = "M240B"
+            elif "K34" in name:
+                name = "K31"
+            elif "v2." in name:
+                name = "vz.52"
+            elif "M16A1" in name:
+                name = "M16 A1"
+            elif "MpP" in name:
+                name = "MP40"
+            elif "Luger P" in name:
+                name = "Luger P08"
+            elif "CZ805" in name:
+                name = "CZ 805 BREN"
+            elif "FN5" in name:
+                name = "FN 57"
             try:
                 pygui.locate(r'.\screenshots\weapon_image.png',
                              f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                             confidence=0.9, region=(0, 0, 256, 185))  # TODO: same here
+                             confidence=0.95, region=(0, 0, 256, 185))  # TODO: same here
             except pygui.ImageNotFoundException:
                 continue
             except IOError:
                 print(f'NameError: weapon name {name} was incorrect. Please add a solution for this typo.')
-                break
+                return
         break
 
     click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
-    mouse.move(150, 0, False, 0.05)  # Move cursor away from the text
+    mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
 
 if __name__ == '__main__':
     with open("path.txt", "r") as file:
