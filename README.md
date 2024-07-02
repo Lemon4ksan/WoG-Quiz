@@ -1,5 +1,5 @@
 # WoG-Quiz
-Python script that allows to automatically complete World of Gun quizes.
+Python script that allows to automatically complete World of Guns quizes.
 
 ## Demonstration
 <div style="width:100%;height:0;padding-bottom:54%;position:relative;"><iframe src="https://giphy.com/embed/lhJjtCm0GcNwNtPGaA" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
@@ -44,10 +44,10 @@ python main.py
 
 ## Updates
 When game releases new weapon you should run download_weapons.py script to download new entries. 
-(You'll probably have to wait for the guide's author to update it first.)
+(You'll probably have to wait for the Steam guide's author to update it first.)
 
 ## Mentions
-Thanks to this guide for providing the weapon images.: https://steamcommunity.com/sharedfiles/filedetails/?id=2589399401
+Thanks to this guide for providing the weapon images: https://steamcommunity.com/sharedfiles/filedetails/?id=2589399401
 Make sure to give it a like. 
 
 ## Contribution
