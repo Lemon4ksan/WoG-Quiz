@@ -46,7 +46,7 @@ In addition, you can copy/paste images from ```missing_weapons``` folder in your
 
 
 ## Updates
-When game releases new weapon you should run download_weapons.py script to download new entries. 
+When game releases new weapon you should run ```download_weapons.py``` script to download new entries. 
 (You'll probably have to wait for the Steam guide's author to update it first.)
 
 ## Mentions
