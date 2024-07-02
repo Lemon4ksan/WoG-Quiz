@@ -63,14 +63,13 @@ def fix_it(name: str) -> str | None:
         name = "M240B"
     elif "K3" in name:
         name = "K31"
-    elif "v2" in name and "2" in name:
+    elif "v2" in name and name[-1] == "2":
         name = "vz.52"
-    elif "v2" in name and "8" in name:
+    elif "v2" in name and name[-1] == "8":
         name = "vz.58"
     elif "M16" in name:
         name = "M16 A1"
     elif "MpP" in name:
-        print(name)
         name = "MP40"
     elif "Luger P" in name:
         name = "Luger P08"
@@ -109,5 +108,5 @@ def fix_it(name: str) -> str | None:
     return name
 
 if __name__ == '__main__':
-    name_ = "HK PSG14"
+    name_ = "v2.58"
     print(fix_it(name_))
