@@ -3,14 +3,16 @@ def fix_it(name: str) -> str | None:
     Attempts to fix wrong text recognition. There will be more fixes later on.
     :Note: Probably should be implemented better
     """
-    if name == "":
-        return  # Nothing was found
+    if name == "" or name == "Close":
+        return  # Nothing was found or quiz was finished
 
     # Multiple weapons fixes ↓
     if name[-1] in (".", ",", ":", "~", "“"):  # Make sure to take this into account when creating fixes
         name = name.replace(name[-1], "")
     if name[0] in (".", ",", ":", "~", "“"):
         name = name.replace(name[0], "")
+    if "~" in name:
+        name = name.replace("~", "-")
     if "Il" in name:
         name = name.replace("l", "I")
 
@@ -31,11 +33,11 @@ def fix_it(name: str) -> str | None:
         name = "CZ-75"
     elif "CZ52" in name:
         name = "CZ-52"
-    elif "type b" in name.lower():  # The guide was right (why is it named Type B in quiz?)
+    elif "type" in name.lower():  # The guide was right (why is it named Type B in quiz?)
         name = "Stryk B"
     elif "BAR" in name:
         name = "B.A.R."
-    elif "1919.04" in name:
+    elif "1919" in name:
         name = "M1919 A4"
     elif "Berdan" in name:
         name = "Berdan 2"
@@ -47,7 +49,7 @@ def fix_it(name: str) -> str | None:
         name = "MG 3"
     elif name == "14":
         name = "M14"
-    elif "Model 2" in name:
+    elif "Model 24" in name:
         name = "Model 21"
     elif "ART" in name:
         name = "AR-7"
@@ -57,8 +59,6 @@ def fix_it(name: str) -> str | None:
         name = "HK 33A3"
     elif "1T" in name:
         name = "TT"
-    # elif "Ruger MK" in name:  # Uncomment in case if <elif "Il" in name:> doesn't work
-    #     name = "Ruger MK II"
     elif "M240" in name:
         name = "M240B"
     elif "K3" in name:
@@ -105,6 +105,13 @@ def fix_it(name: str) -> str | None:
         name = "SKS M59/66"
     elif "SVT" in name:
         name = "SVT-40"
+    elif "Wreten" in name:
+        name = "Welrod"
+    elif "SG510" in name:
+        name = "SIG SG 510"
+    elif "Suomi KP" in name:
+        name = "Suomi KP/-31"
+
     return name
 
 if __name__ == '__main__':
