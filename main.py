@@ -72,7 +72,7 @@ def main() -> None:
                     logging.debug(f"Name {name} issue was resolved")
                 except pygui.ImageNotFoundException:
                     if i == 5:
-                        print("No matches found")
+                        print("No matches found. Quiz is finished")
                         return
                     continue
                 except IOError:
@@ -81,9 +81,13 @@ def main() -> None:
                     return
             break
 
-        click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
-        mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
-        sleep(0.05)
+        try:
+            click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
+            mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
+            sleep(0.05)
+        except pygui.ImageNotFoundException:
+            print("Quiz is finished")
+            return
 
 if __name__ == '__main__':
     logger = logging.getLogger(__name__)
