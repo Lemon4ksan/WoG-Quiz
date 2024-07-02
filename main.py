@@ -1,9 +1,11 @@
+import logging
 import os
 import pytesseract
 import pyautogui as pygui
 import keyboard
 import mouse
 from download_weapons import run_downloading
+from fixes import fix_it
 from time import sleep
 
 def locate_quiz() -> tuple[int, int]:
@@ -31,101 +33,52 @@ def main() -> None:
         print("Couldn't find quiz window")
         return
 
-    pygui.screenshot(r'.\screenshots\weapon_image.png',
-                     region=(start_x + 80, start_y + 30, 256, 185))
+    while not pygui.pixelMatchesColor(start_x + 83, start_y + 266, (255, 0, 0)):
+        pygui.screenshot(r'.\screenshots\weapon_image.png',
+                         region=(start_x + 80, start_y + 30, 256, 185))
 
-    for i in range(6):
-        if i < 3:
-            pygui.screenshot(r'.\screenshots\button.png',
-                             region=(start_x, start_y + 295 + 30 * i, 200, 30))
-            name: str = pytesseract.image_to_string(r'.\screenshots\button.png', lang='eng').strip()
-        else:
-            pygui.screenshot(r'.\screenshots\button.png',  # This is awful, but it works. !Rewrite!
-                             region=(start_x + 200, start_y + 295 + 30 * (5 - i), 200, 30))
-            name: str = pytesseract.image_to_string(r'.\screenshots\button.png', lang='eng').strip()
-        try:
-            pygui.locate(r'.\screenshots\weapon_image.png',
-                         f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                         confidence=0.95, region=(0, 0, 256, 185))  # TODO: Adjust pixels to get clean white space
-        except pygui.ImageNotFoundException:
-            continue
-        except IOError:
-            # Attempts to fix wrong text recognition. There will be more fixes later on
-            if "Bren" in name:
-                name = name.replace("l", "I")
-            elif "CZ-5" in name or "CZ75" in name:
-                name = "CZ-75"
-            elif "type b" in name.lower():
-                name = "Stryk B"
-            elif "bar" in name.lower():
-                name = "B.A.R."
-            elif "1919.04" in name:
-                name = "M1919 A4"
-            elif "Berdan" in name:
-                name = "Berdan 2"
-            elif "vz61" in name:
-                name = "VZ 61"
-            elif "M1944" in name:
-                name = name.replace("44", "41")
-            elif "MG3" in name:
-                name = "MG 3"
-            elif "14" in name:
-                name = "M14"
-            elif "Model 1" in name:
-                name = "Model 21"
-            elif "ART" in name:
-                name = "AR-7"
-            elif "zis" in name:
-                print(f"Weapon {name} is not implemented yet...")
-                continue
-            elif "S&W" in name:
-                name = "S&W M&P"
-            elif "Flak" in name:
-                print(f"Weapon {name} is not implemented yet...")
-                continue
-            elif "TKB-022PM" in name:
-                print(f"Weapon {name} is not implemented yet...")
-                continue
-            elif "HK 3303" in name:
-                name = "HK 33A3"
-            elif "1T" in name:
-                name = "TT"
-            elif "Villar Perosa" in name:
-                print(f"Weapon {name} is not implemented yet...")
-                continue
-            elif "Ruger MK" in name:
-                name = "Ruger MK II"
-            elif "M2408" in name:
-                name = "M240B"
-            elif "K34" in name:
-                name = "K31"
-            elif "v2." in name:
-                name = "vz.52"
-            elif "M16A1" in name:
-                name = "M16 A1"
-            elif "MpP" in name:
-                name = "MP40"
-            elif "Luger P" in name:
-                name = "Luger P08"
-            elif "CZ805" in name:
-                name = "CZ 805 BREN"
-            elif "FN5" in name:
-                name = "FN 57"
+        for i in range(6):
+            if i < 3:
+                pygui.screenshot(r'.\screenshots\button.png',
+                                 region=(start_x, start_y + 295 + 30 * i, 200, 30))
+                name: str = pytesseract.image_to_string(r'.\screenshots\button.png', lang='eng').strip()
+            else:
+                pygui.screenshot(r'.\screenshots\button.png',
+                                 region=(start_x + 200, start_y + 295 + (30 * i - 90), 200, 30))
+                name: str = pytesseract.image_to_string(r'.\screenshots\button.png', lang='eng').strip()
             try:
                 pygui.locate(r'.\screenshots\weapon_image.png',
                              f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                             confidence=0.95, region=(0, 0, 256, 185))  # TODO: same here
+                             confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
             except pygui.ImageNotFoundException:
                 continue
             except IOError:
-                print(f'NameError: weapon name {name} was incorrect. Please add a solution for this typo.')
-                return
-        break
+                logging.debug(f"Name {name} caused the issue")
+                name = fix_it(name)  # fixes.py
+                if name is None:
+                    logging.debug(f"Weapon skipped")
+                    continue
+                try:
+                    pygui.locate(r'.\screenshots\weapon_image.png',
+                                 f'.\\weapons\\{name.replace('/', '[S]')}.png',
+                                 confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
+                    logging.debug(f"Name {name} issue was resolved")
+                except pygui.ImageNotFoundException:
+                    continue
+                except IOError:
+                    logging.debug(f"Name {name} issue wasn't resolved")
+                    print(f'NameError: weapon name {name} was incorrect. Please add a solution for this typo.')
+                    return
+            break
 
-    click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
-    mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
+        click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
+        mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
+        sleep(0.05)
 
 if __name__ == '__main__':
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(filename="logs.log", level=logging.DEBUG, filemode="w")
+
     with open("path.txt", "r") as file:
         path = file.read()
 
@@ -141,6 +94,6 @@ if __name__ == '__main__':
         print('Downloading missing weapons...')
         os.mkdir(r'.\weapons')
         run_downloading()
-    print("Press Q to answer the current quiz")   # TODO: Make it loop until game over
+    print("Press Q to start for 1 iteration")
     keyboard.add_hotkey('q', main)
     keyboard.wait()
