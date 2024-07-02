@@ -1,6 +1,10 @@
 # WoG-Quiz
 Python script that allows to automatically complete World of Gun quizes.
 
+## Demonstration
+<div style="width:100%;height:0;padding-bottom:54%;position:relative;"><iframe src="https://giphy.com/embed/lhJjtCm0GcNwNtPGaA" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
+
+
 ## Requirements
 - Tesseract
 - Git
@@ -48,9 +52,9 @@ Make sure to give it a like.
 
 ## Contribution
 Since text recognition isn't perfect, there may be incorrect results. I can't test all the weapons myself, 
-so if you encounter this situation, add possible solution for the typo in main.py after the first ```except IOError:``` 
-occurrence and create a pull request. It will help a lot (You should save the photo of the problematic quiz and test
-your solution before submitting).
+so if you encounter this situation, add possible solution for the typo in ```fixes.py```. It will help a lot.
+Use logs.log file to analyze the issue. You should save the image of the problematic quiz and test your solution
+before submitting.
 
 ## Support
 If you find this script helpful, you can send a small reward on my Steam account:
