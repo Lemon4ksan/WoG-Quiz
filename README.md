@@ -1,5 +1,5 @@
 # WoG-Quiz
-Python script that allows to automatically complete World of Gun quizes.
+Python script that allows to automatically complete World of Guns quizes.
 
 ## Requirements
 - Tesseract
