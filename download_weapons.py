@@ -1,5 +1,6 @@
 import os
 import requests
+from PIL import Image
 from alive_progress import alive_bar
 from time import sleep
 from random import uniform
@@ -56,9 +57,13 @@ def main(html) -> None:
                             name = name.replace("/", "[S]")
                 if not f"{name}.png" in os.listdir(".\\weapons"):
                     img_data = requests.get(link, headers=headers).content
-                    sleep(round(uniform(0.5, 1.5), 2))  # Don't spam Steam too much
+                    sleep(round(uniform(0.5, 1), 2))  # Don't spam Steam too much
                     with open(f".\\weapons\\{name}.png", "wb") as handler:
                         handler.write(img_data)
+                    # Images are cropped to be simmilar with screenshots
+                    new_image = Image.open(f".\\weapons\\{name}.png")
+                    new_image = new_image.crop((0, 0, 256, 185))
+                    new_image.save(f".\\weapons\\{name}.png")
                 bar()
     print(f"All {len(html.find_all("a", class_="modalContentLink"))} weapons downloaded")
 
