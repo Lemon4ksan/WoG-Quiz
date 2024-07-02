@@ -2,7 +2,7 @@
 Python script that allows to automatically complete World of Guns quizes.
 
 ## Demonstration
-<div style="width:100%;height:0;padding-bottom:54%;position:relative;"><iframe src="https://giphy.com/embed/lhJjtCm0GcNwNtPGaA" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe></div>
+![](https://i.giphy.com/lhJjtCm0GcNwNtPGaA.webp)
 
 
 ## Requirements
