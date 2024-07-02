@@ -7,6 +7,7 @@ import mouse
 from download_weapons import run_downloading
 from fixes import fix_it
 from time import sleep
+from time import time
 
 def locate_quiz() -> tuple[int, int]:
     """
@@ -19,24 +20,27 @@ def locate_quiz() -> tuple[int, int]:
 def click(location: tuple[int, int] | pygui.Point) -> None:
     """
     Clicks on given coordinates. Uses animated mouse movement to be consistent (Don't use pygui click functions)
+    Sometimes click won't count. We can't do anything about this (Even win32_api lib can fail)
     """
     mouse.move(*location, duration=0.05)
     mouse.press()
-    sleep(0.01)
+    sleep(0.03)
     mouse.release()
-    sleep(0.01)
+    sleep(0.03)
 
 def main() -> None:
+    """
+    :TODO: Code multiprocessing for 2 colums of buttons to make script 2x faster
+    """
     try:
         start_x, start_y = locate_quiz()
     except pygui.ImageNotFoundException:
         print("Couldn't find quiz window")
         return
-
-    while not pygui.pixelMatchesColor(start_x + 83, start_y + 266, (255, 0, 0)):
-        pygui.screenshot(r'.\screenshots\weapon_image.png',
-                         region=(start_x + 80, start_y + 30, 256, 185))
-
+    start_time = time()
+    while not round(time() - start_time) > 45:
+        pygui.screenshot(r'.\screenshots\weapon_image.png',  # Making screenshots is slow
+                         region=(start_x + 80, start_y + 30, 256, 185))  # But it's useful for debugging. Delete later
         for i in range(6):
             if i < 3:
                 pygui.screenshot(r'.\screenshots\button.png',
@@ -51,6 +55,9 @@ def main() -> None:
                              f'.\\weapons\\{name.replace('/', '[S]')}.png',
                              confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
             except pygui.ImageNotFoundException:
+                if i == 5:
+                    print("No matches found")
+                    return
                 continue
             except IOError:
                 logging.debug(f"Name {name} caused the issue")
@@ -59,11 +66,14 @@ def main() -> None:
                     logging.debug(f"Weapon skipped")
                     continue
                 try:
-                    pygui.locate(r'.\screenshots\weapon_image.png',
+                    pygui.locate(r'.\screenshots\weapon_image.png',  # TODO: Change to LocateOnScreen
                                  f'.\\weapons\\{name.replace('/', '[S]')}.png',
                                  confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
                     logging.debug(f"Name {name} issue was resolved")
                 except pygui.ImageNotFoundException:
+                    if i == 5:
+                        print("No matches found")
+                        return
                     continue
                 except IOError:
                     logging.debug(f"Name {name} issue wasn't resolved")
