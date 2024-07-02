@@ -1,3 +1,4 @@
+import cv2
 import logging
 import os
 import pytesseract
@@ -6,8 +7,7 @@ import keyboard
 import mouse
 from download_weapons import run_downloading
 from fixes import fix_it
-from time import sleep
-from time import time
+from time import time, sleep
 
 def locate_quiz() -> tuple[int, int]:
     """
@@ -30,7 +30,7 @@ def click(location: tuple[int, int] | pygui.Point) -> None:
 
 def main() -> None:
     """
-    :TODO: Code multiprocessing for 2 colums of buttons to make script 2x faster
+    :Note: Multiprocessing module slows everything down sadly. locate() is faster than locateOnScreen()
     """
     try:
         start_x, start_y = locate_quiz()
@@ -38,9 +38,9 @@ def main() -> None:
         print("Couldn't find quiz window")
         return
     start_time = time()
-    while not round(time() - start_time) > 45:
-        pygui.screenshot(r'.\screenshots\weapon_image.png',  # Making screenshots is slow
-                         region=(start_x + 80, start_y + 30, 256, 185))  # But it's useful for debugging. Delete later
+    while round(time() - start_time) < 45:
+        pygui.screenshot(r'.\screenshots\weapon_image.png',
+                         region=(start_x + 80, start_y + 29, 256, 185))
         for i in range(6):
             if i < 3:
                 pygui.screenshot(r'.\screenshots\button.png',
@@ -53,7 +53,7 @@ def main() -> None:
             try:
                 pygui.locate(r'.\screenshots\weapon_image.png',
                              f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                             confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
+                             confidence=0.955, region=(0, 0, 256, 185), grayscale=True)
             except pygui.ImageNotFoundException:
                 if i == 5:
                     print("No matches found")
@@ -63,14 +63,15 @@ def main() -> None:
                 logging.debug(f"Name {name} caused the issue")
                 name = fix_it(name)  # fixes.py
                 if name is None:
-                    logging.debug(f"Weapon skipped")
+                    logging.debug(f"Weapon {name} was skipped")
                     continue
                 try:
-                    pygui.locate(r'.\screenshots\weapon_image.png',  # TODO: Change to LocateOnScreen
+                    pygui.locate(r'.\screenshots\weapon_image.png',
                                  f'.\\weapons\\{name.replace('/', '[S]')}.png',
-                                 confidence=0.95, region=(0, 0, 256, 185), grayscale=True)
+                                 confidence=0.955, region=(0, 0, 256, 185), grayscale=True)
                     logging.debug(f"Name {name} issue was resolved")
                 except pygui.ImageNotFoundException:
+                    logging.debug(f"Name {name} issue was resolved")
                     if i == 5:
                         print("No matches found. Quiz is finished")
                         return
@@ -83,13 +84,13 @@ def main() -> None:
 
         try:
             click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
-            mouse.move(150, 100, False, 0.05)  # Move cursor away from the text
-            sleep(0.05)
+            mouse.move(0, 100, False, 0.05)  # Move cursor away from the text
         except pygui.ImageNotFoundException:
             print("Quiz is finished")
             return
 
 if __name__ == '__main__':
+    cv2.setLogLevel(-1)
     logger = logging.getLogger(__name__)
     logging.basicConfig(filename="logs.log", level=logging.DEBUG, filemode="w")
 
@@ -109,5 +110,7 @@ if __name__ == '__main__':
         os.mkdir(r'.\weapons')
         run_downloading()
     print("Press Q to start for 1 iteration")
+    # I could make it fully automatic, but there are still too many issues
+    # User interaction is required
     keyboard.add_hotkey('q', main)
     keyboard.wait()
