@@ -28,7 +28,7 @@ def page_request(url: str, *, use_index: bool = False) -> BeautifulSoup:
             html = file.read()
     else:
         req = requests.get(url, headers=headers)
-        html = req.text, "lxml"
+        html = req.text
 
     return BeautifulSoup(html, "lxml")
 
