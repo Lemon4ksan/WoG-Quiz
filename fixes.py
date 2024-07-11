@@ -39,6 +39,8 @@ def fix_it(name: str) -> str | None:
         return "M4"
     elif name == "PP-49":
         return "PP-19"
+    elif name == "1T" or name == "IT":
+        return "TT"
     elif "S8&W 4" in name:
         return "S&W 4006"
     elif "CZ" in name and "7" in name:  # rare typo <"CZ-5" in name> will break things if CZ-52 will appear
@@ -65,8 +67,6 @@ def fix_it(name: str) -> str | None:
         return "S&W M&P"
     elif "HK 3303" in name:
         return "HK 33A3"
-    elif "1T" in name:
-        return "TT"
     elif "M240" in name:
         return "M240B"
     elif "K3" in name:
@@ -119,6 +119,12 @@ def fix_it(name: str) -> str | None:
         return "SIG SG 510"
     elif "Suomi KP" in name:
         return "Suomi KP/-31"
+    elif "TOzZ" in name:
+        return "TOZ-34"
+    elif "MLE" in name:
+        name = "SMLE Mk III"
+    elif "MAT-" in name:
+        return "MAT-49"
 
     return name
 
