@@ -9,13 +9,17 @@ from download_weapons import run_downloading
 from fixes import fix_it
 from time import time, sleep
 
+WINDOW_LOCATE_IMG_PATH: str = r'.\screenshots\locate.png'
+CURRENT_BUTTON_IMG_PATH: str = r'.\screenshots\button.png'
+CURRENT_WEAPON_IMG_PATH: str = r'.\screenshots\weapon_image.png'
+
 def locate_quiz() -> tuple[int, int]:
     """
     Defines start position of the quiz window.
 
     :returns: Coordinates to the top-right corner of the quiz window.
     """
-    game_location = pygui.locateOnScreen(r'.\screenshots\locate.png', confidence=0.8)
+    game_location = pygui.locateOnScreen(WINDOW_LOCATE_IMG_PATH, confidence=0.8)
     x, y = game_location[:2]
     return int(x), int(y)
 
@@ -53,13 +57,13 @@ def screenshot_button(button_index: int) -> str:
     :returns: String representing weapon name.
     """
     if button_index < 3:
-        pygui.screenshot(r'.\screenshots\button.png',
+        pygui.screenshot(CURRENT_BUTTON_IMG_PATH,
                          region=(start_x, start_y + 295 + 30 * button_index, 200, 30))
     else:
-        pygui.screenshot(r'.\screenshots\button.png',
+        pygui.screenshot(CURRENT_BUTTON_IMG_PATH,
                          region=(start_x + 200, start_y + 295 + (30 * button_index - 90), 200, 30))
 
-    name: str = pytesseract.image_to_string(r'.\screenshots\button.png', lang='eng').strip()
+    name: str = pytesseract.image_to_string(CURRENT_BUTTON_IMG_PATH, lang='eng').strip()
 
     return name
 
@@ -72,7 +76,7 @@ def correct_weapon(weapon_name: str) -> bool:
     :raises NameError: Weapon name doesn't exist.
     """
     try:
-        pygui.locate(r'.\screenshots\weapon_image.png',
+        pygui.locate(CURRENT_WEAPON_IMG_PATH,
                      fr'.\weapons\{weapon_name.replace('/', '[S]')}.png',
                      confidence=0.955, region=(0, 0, 256, 185), grayscale=True)
     except pygui.ImageNotFoundException:
@@ -80,11 +84,13 @@ def correct_weapon(weapon_name: str) -> bool:
     except IOError:
         logging.debug(f"Name {weapon_name} caused the issue")
         weapon_name = fix_it(weapon_name)  # fixes.py
+
         if weapon_name is None:
             logging.debug(f"Name was skipped")
             return False
+
         try:
-            pygui.locate(r'.\screenshots\weapon_image.png',
+            pygui.locate(CURRENT_WEAPON_IMG_PATH,
                          fr'.\weapons\{weapon_name.replace('/', '[S]')}.png',
                          confidence=0.955, region=(0, 0, 256, 185), grayscale=True)
             logging.debug(f"Name {weapon_name} issue was resolved")
@@ -111,7 +117,7 @@ def main() -> None:
 
     start_time = time()
     while round(time() - start_time) < 45:
-        pygui.screenshot(r'.\screenshots\weapon_image.png',
+        pygui.screenshot(CURRENT_WEAPON_IMG_PATH,
                          region=(start_x + 80, start_y + 29, 256, 185))
 
         if not find_matching_name():
@@ -119,8 +125,9 @@ def main() -> None:
             return
 
         try:
-            click(pygui.locateCenterOnScreen(r'.\screenshots\button.png'))  # click on the correct button
+            click(pygui.locateCenterOnScreen(CURRENT_BUTTON_IMG_PATH))
             mouse.move(0, 100, False, 0.05)
+            sleep(0.03)
         except pygui.ImageNotFoundException:
             print("Quiz is finished")
             return
@@ -138,7 +145,7 @@ if __name__ == '__main__':
     if path:
         pytesseract.pytesseract.tesseract_cmd = fr'{path}'
         try:
-            pytesseract.image_to_string(r'.\screenshots\locate.png')
+            pytesseract.image_to_string(WINDOW_LOCATE_IMG_PATH)
         except (PermissionError, pytesseract.pytesseract.TesseractNotFoundError):
             print('TesseractNotFoundError: Invalid path to Tesseract')
             exit(0)
