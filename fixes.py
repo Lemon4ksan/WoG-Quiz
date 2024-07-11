@@ -27,93 +27,101 @@ def fix_it(name: str) -> str | None:
         return
     elif "Ithaca 37" in name:
         return
+    elif "Type B" in name:
+        return  # Not sure ?? This literally put me 2 buttons with Type B and Stryk B, the second one was right ??
 
     # Single weapon fixes ↓
-    if "CZ" in name and "7" in name:  # rare typo <"CZ-5" in name> will break things if CZ-52 will appear
-        name = "CZ-75"
+    if name == "MG3":
+        return "MG 3"
+    elif name == "14":
+        return "M14"
+    elif name == "Ms":
+        return "M4"
+    elif name == "PP-49":
+        return "PP-19"
+    elif "S8&W 4" in name:
+        return "S&W 4006"
+    elif "CZ" in name and "7" in name:  # rare typo <"CZ-5" in name> will break things if CZ-52 will appear
+        return "CZ-75"
     elif "CZ52" in name:
-        name = "CZ-52"
-    elif "type" in name.lower():  # The guide was right (why is it named Type B in quiz?)
-        name = "Stryk B"
+        return "CZ-52"
+    # elif "type" in name.lower():  # The guide was right (why is it named Type B in quiz?)
+    #     return "Stryk B"
     elif "BAR" in name:
-        name = "B.A.R."
+        return "B.A.R."
     elif "1919" in name:
-        name = "M1919 A4"
+        return "M1919 A4"
     elif "Berdan" in name:
-        name = "Berdan 2"
+        return "Berdan 2"
     elif "vz61" in name:
-        name = "VZ 61"
+        return "VZ 61"
     elif "M1944" in name:
         name = name.replace("44", "41")
-    elif name == "MG3":
-        name = "MG 3"
-    elif name == "14":
-        name = "M14"
     elif "Model 24" in name:
-        name = "Model 21"
+        return "Model 21"
     elif "ART" in name:
-        name = "AR-7"
+        return "AR-7"
     elif "S&W" in name:
-        name = "S&W M&P"
+        return "S&W M&P"
     elif "HK 3303" in name:
-        name = "HK 33A3"
+        return "HK 33A3"
     elif "1T" in name:
-        name = "TT"
+        return "TT"
     elif "M240" in name:
-        name = "M240B"
+        return "M240B"
     elif "K3" in name:
-        name = "K31"
+        return "K31"
     elif "v2" in name and name[-1] == "2":
-        name = "vz.52"
+        return "vz.52"
     elif "v2" in name and name[-1] == "8":
-        name = "vz.58"
+        return "vz.58"
     elif "M16" in name:
-        name = "M16 A1"
+        return "M16 A1"
     elif "MpP" in name:
-        name = "MP40"
+        return "MP40"
     elif "Luger P" in name:
-        name = "Luger P08"
+        return "Luger P08"
     elif "CZ805" in name:
-        name = "CZ 805 BREN"
+        return "CZ 805 BREN"
     elif "FN5" in name:
-        name = "FN 57"
+        return "FN 57"
     elif "Ruger Precision" in name:  # why won't it read entire name?
-        name = "Ruger Precision Rifle"
+        return "Ruger Precision Rifle"
     elif "SW Si" in name:
-        name = "S&W Sigma"
+        return "S&W Sigma"
     elif "Le6A" in name:
-        name = "L86A2"
+        return "L86A2"
     elif "MAS 4" in name:
-        name = "MAS 49/56"
+        return "MAS 49/56"
     elif "9.A4" in name:
-        name = "M1919 A4"
+        return "M1919 A4"
     elif "Lee" in name:
-        name = "L86A2"
+        return "L86A2"
     elif "Browning A" in name:
-        name = "Browning A5"
+        return "Browning A5"
     elif "T0z-" in name:
-        name = "TOZ-34"
+        return "TOZ-34"
     elif "OsvV" in name:
-        name = "OSV-96"
+        return "OSV-96"
     elif "Remington R5" in name:
-        name = "Remington R51"
+        return "Remington R51"
     elif "HK PS" in name:
-        name = "HK PSG1"
+        return "HK PSG1"
     elif "S8W Sc" in name:
-        name = "S&W Schofield"
+        return "S&W Schofield"
     elif "SKS M5" in name:
-        name = "SKS M59/66"
+        return "SKS M59/66"
     elif "SVT" in name:
-        name = "SVT-40"
+        return "SVT-40"
     elif "Wreten" in name:
-        name = "Welrod"
+        return "Welrod"
     elif "SG510" in name:
-        name = "SIG SG 510"
+        return "SIG SG 510"
     elif "Suomi KP" in name:
-        name = "Suomi KP/-31"
+        return "Suomi KP/-31"
 
     return name
 
 if __name__ == '__main__':
-    name_ = "v2.58"
+    name_ = "Bren MKIl"
     print(fix_it(name_))
