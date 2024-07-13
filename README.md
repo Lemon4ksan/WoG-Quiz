@@ -6,22 +6,20 @@ Python script that allows to automatically complete World of Guns quizes.
 
 ## Requirements
 - Tesseract
-- Git
 - Python (3.12)
 - pip
 
 ## Installation
 
-First, you need to install Tessercat-OCR (text recognition tool). Select 64 or 32 bit version, depending on your system.
+Download the latest release
+
+Install Tessercat-OCR (text recognition tool). Select 64 or 32 bit version, depending on your system.
 You may leave checkboxes as they are.
 
 ```
 https://github.com/UB-Mannheim/tesseract/wiki
 ```
-Then clone this repository
-```commandline
-git clone https://github.com/Lemon4ksan/WoG-Quiz.git
-```
+
 Insert path to ```tesseract.exe``` in path.txt.
 Example: ```C:\Program Files\Tesseract-OCR\tesseract.exe```
 
