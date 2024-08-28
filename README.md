@@ -48,14 +48,3 @@ When game releases new weapon you should run ```download_weapons.py``` script to
 ## Mentions
 Thanks to this guide for providing the weapon images: https://steamcommunity.com/sharedfiles/filedetails/?id=2589399401
 Make sure to give it a like. 
-
-## Contribution
-Since text recognition isn't perfect, there may be incorrect results. I can't test all the weapons myself, 
-so if you encounter this situation, add possible solution for the typo in ```fixes.py```. It will help a lot.
-Use logs.log file to analyze the issue. You should save the image of the problematic quiz and test your solution
-before submitting. Also, you can add missing weapon images in appropriate folder 
-(to be compatible use screenshot code used in ```main.py```).
-
-## Support
-If you find this script helpful, you can send a small reward on my Steam account:
-https://steamcommunity.com/profiles/76561199101344085/
